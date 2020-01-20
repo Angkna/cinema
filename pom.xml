@@ -29,6 +29,18 @@
 		<artifactId>spring-data-jpa</artifactId>
 	</dependency>
 	
+	<!--  in order to test Spring Boot -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+		<scope>test</scope>
+	</dependency>
+	
+	<dependency>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-starter-jdbc</artifactId>
+  	</dependency>
+	
 	<dependency>
 	    <groupId>org.junit.jupiter</groupId>
 	    <artifactId>junit-jupiter-api</artifactId>
@@ -57,19 +69,15 @@
 	    <version>5.4.10.Final</version>
 	</dependency>
 	
-	<!--  in order to test Spring Boot -->
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-test</artifactId>
-		<scope>test</scope>
-	</dependency>
-	
 	<dependency>
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
         <scope>test</scope>
 	</dependency>
+
   </dependencies>
+  
+  
     
   <build>
   <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
