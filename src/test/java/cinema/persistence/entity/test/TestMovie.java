@@ -1,4 +1,4 @@
-package test.cinema.persistence.entity;
+package cinema.persistence.entity.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
