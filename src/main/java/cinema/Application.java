@@ -1,4 +1,4 @@
-package cinema;
+package cinema; //application fait fonctionner le truc dans tout ce qui commence par cinema
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
