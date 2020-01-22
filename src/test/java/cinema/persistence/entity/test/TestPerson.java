@@ -50,4 +50,20 @@ class TestPerson {
 		System.out.println(dataMarion);
 		
 	}
+	
+	@Test
+	void testByYear() {
+		List<Person> data = List.of(
+		new Person("Marcel le Gros", LocalDate.of(1986, 1, 16)),
+		new Person("Gerard", LocalDate.of(1930, 1, 16)),
+		new Person("Marion Marechal"),
+		new Person("Jean Lucien de la Voute", LocalDate.of(2015, 8, 7)),
+		new Person("Marion", LocalDate.of(1930, 5, 31)),
+		new Person("Marcel Patoulatchi Agent de la Paix", LocalDate.of(1953, 11, 23)));
+		data.forEach(entityManager::persist);
+		
+		int year = 1930;
+		var data2 = repoPerson.findByBirthdateYear(year);
+		System.out.println(data2);
+	}
 }

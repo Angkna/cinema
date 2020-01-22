@@ -2,11 +2,13 @@ package cinema.persistence.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-//import javax.persistence.Transient;
 
 @Entity
 @Table(name = "movies")
@@ -17,24 +19,30 @@ public class Movie {
 	private Integer year;
 	private Integer duration; 
 	// on évite les types primitifs pour pouvoir avec null.
-//	@Transient
-//	private String director;
+	private Person director;
 	
 	public Movie() {
 		super();
 	}
-	public Movie(Integer id, String title, Integer year, Integer duration) {
+	public Movie(Integer id, String title, Integer year, Integer duration, Person director) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.year = year;
 		this.duration = duration;
+		this.director = director;
+	}
+	public Movie(String title, Integer year, Integer duration, Person director) {
+		this(null, title, year, duration, director);
 	}
 	public Movie(String title, Integer year, Integer duration) {
-		this(null, title, year, duration);
+		this(null, title, year, duration, null);
+	}
+	public Movie(String title, Integer year, Person director) {
+		this(null, title, year, null, director);
 	}
 	public Movie(String title, Integer year) {
-		this(null, title, year, null);
+		this(null, title, year, null, null);
 	}
 
 	@Id
@@ -74,10 +82,22 @@ public class Movie {
 		this.duration = duration;
 	}
 	
+	//lien de table avec Person : cle etrangere (FK)
+	@ManyToOne(fetch = FetchType.EAGER) //or LAZY pour des relations N ou circulaire.
+	@JoinColumn(name = "id_director", nullable = true)
+	public Person getDirector() {
+		return director;
+	}
+	
+	public void setDirector(Person director) {
+		this.director = director;
+	}
+	
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(title).append("  (").append(year).append(")");
+		builder.append(title).append(" (").append(year).append(")#").append(id);
 		return builder.toString();
 	}
 	

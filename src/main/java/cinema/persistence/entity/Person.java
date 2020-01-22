@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "persons")
 public class Person {
 	private Integer id;
 	private String name;
@@ -68,7 +68,7 @@ public class Person {
 		if (Objects.nonNull(birthdate)) {
 			builder.append(" (").append(birthdate).append(")");
 		}
-		return builder.toString();
+		return builder.append('#').append(id).toString();
 	}
 	
 	
