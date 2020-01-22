@@ -1,5 +1,8 @@
 package cinema.persistence.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,9 +25,10 @@ public class Movie {
 	private Integer duration; 
 	// on évite les types primitifs pour pouvoir avec null.
 	private Person director;
+	private List<Person> actors; //attention au NullPointerException
 	
 	public Movie() {
-		super();
+		this(null, null);
 	}
 	public Movie(Integer id, String title, Integer year, Integer duration, Person director) {
 		super();
@@ -31,6 +37,7 @@ public class Movie {
 		this.year = year;
 		this.duration = duration;
 		this.director = director;
+		this.actors = new ArrayList<>(); //on met une liste vide !
 	}
 	public Movie(String title, Integer year, Integer duration, Person director) {
 		this(null, title, year, duration, director);
@@ -93,6 +100,18 @@ public class Movie {
 		this.director = director;
 	}
 	
+	//Normalement on ne les fait pas pour n-n mais comme c'est pour la persistance, on se le permet.
+	@ManyToMany
+    @JoinTable(name="act",
+    joinColumns = @JoinColumn(name="movies", referencedColumnName="id_movie"),
+    inverseJoinColumns = @JoinColumn(name="actor", referencedColumnName="id"))
+	public List<Person> getActors() {
+		return actors;
+	}
+	
+	public void setActors(List<Person> actors) {
+		this.actors = actors;
+	}
 	
 	@Override
 	public String toString() {
