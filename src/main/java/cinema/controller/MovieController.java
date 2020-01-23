@@ -17,71 +17,115 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cinema.persistence.entity.Movie;
-import cinema.persistence.repository.MovieRepository;
+import cinema.service.IMovieService;
 
 @RestController
 @RequestMapping("/api/movie")
 public class MovieController {
 	
 	@Autowired
-	MovieRepository repoMovie;
+	IMovieService movieService;
 	
 	@GetMapping
 	@ResponseBody
-	public List<Movie> movies(){
-		return repoMovie.findAll();
+	public List<Movie> allMovies(){
+		return movieService.getAllMovies();
 	}
 	
 	@GetMapping("/{id}")
 	@ResponseBody
-	public Optional<Movie> movie(@PathVariable("id") int id){
-		return repoMovie.findById(id);
+	public Optional<Movie> movieById(@PathVariable("id") int id){
+		return movieService.getMovieById(id);
 	}
 	
 	@GetMapping("/partTitle")
 	@ResponseBody
-	public Set<Movie> movie(@RequestParam("pt") String partialname){
-		return repoMovie.findByTitleContaining(partialname);
+	public Set<Movie> movieByPartialTitle(@RequestParam("pt") String partialtitle){
+		return movieService.getMovieByPartialTitle(partialtitle);
 	}
 	
 	@GetMapping("/byTitleAndYear")
 	@ResponseBody
-	public Set<Movie> movie(@RequestParam("t") String partialname,@RequestParam("y") int year){
-		return repoMovie.findByTitleAndYear(partialname, year);
+	public Set<Movie> movieByTitleAndYear(@RequestParam("t") String title,@RequestParam("y") int year){
+		return movieService.getMovieByTitleAndYear(title, year);
 	}
 	
-	@PostMapping
+	@GetMapping("/byDirector")
 	@ResponseBody
-	public Movie addMovie(@RequestBody Movie m) {
-		var saved = repoMovie.save(m);
-		repoMovie.flush();
-		return saved;
-	}
-
-	@PutMapping("/modify")
-	@ResponseBody
-	public Optional<Movie> modifyMovie(@RequestBody Movie movie) {
-		var optMovie = repoMovie.findById(movie.getId());
-		//TODO : anywhere else (normalement pas d'algo dans un controller)
-			optMovie.ifPresent(m -> {
-				m.setTitle(movie.getTitle());
-				m.setYear(movie.getYear());
-				m.setDuration(movie.getDuration());
-				m.setDirector(movie.getDirector());
-				repoMovie.flush();	
-			});
-		return optMovie;
+	public Set<Movie> movieByDirector(@RequestParam("d") String director){
+		return movieService.getMovieByDirector(director);
 	}
 	
-	@DeleteMapping("/{id}")
+	@GetMapping("/byActor")
 	@ResponseBody
-	public Optional<Movie> deleteMovie(@PathVariable("id") int id){
-		Optional<Movie> movie = repoMovie.findById(id);
-		if (movie.isPresent()) {
-			repoMovie.deleteById(id);
-			repoMovie.flush();
-		}
-		return movie;
+	public Set<Movie> movieByActor(@RequestParam("a") String actor){
+		return movieService.getMovieByActor(actor);
 	}
+	
+	@GetMapping("/byActorOrDirector")
+	@ResponseBody
+	public Set<Movie> movieByActorOrDirector(@RequestParam("a") String actor,@RequestParam("d") String director){
+		return movieService.getMovieByActorOrDirector(actor,director);
+	}
+	
+//	@PostMapping
+//	@ResponseBody
+//	public Movie addMovie(@RequestBody Movie m) {
+//		var saved = repoMovie.save(m);
+//		repoMovie.flush();
+//		return saved;
+//	}
+//	
+//	@PutMapping("/addActor")
+//	@ResponseBody
+//	public Optional<Movie> addActor(@RequestParam("m") int id_movie, @RequestParam("p") int id_person){
+//		//TODO : anywhere else (normalement pas d'algo dans un controller)
+//		var actorOpt = repoPerson.findById(id_person);
+//		var movieOpt = repoMovie.findById(id_movie);
+//		if (actorOpt.isPresent() && movieOpt.isPresent()) {
+//			movieOpt.get().getActors().add(actorOpt.get());
+//			repoMovie.flush();
+//		}
+//		return movieOpt;
+//	}
+//	
+//	@PutMapping("/addDirector")
+//	@ResponseBody
+//	public Optional<Movie> addDirector(@RequestParam("m") int id_movie, @RequestParam("p") int id_person){
+//		//TODO : anywhere else (normalement pas d'algo dans un controller)
+//		var directorOpt = repoPerson.findById(id_person);
+//		var movieOpt = repoMovie.findById(id_movie);
+//		if (directorOpt.isPresent() && movieOpt.isPresent()) {
+//			movieOpt.get().setDirector(directorOpt.get());
+//			repoMovie.flush();
+//		}
+//		return movieOpt;
+//	}
+//
+//	@PutMapping("/modify")
+//	@ResponseBody
+//	public Optional<Movie> modifyMovie(@RequestBody Movie movie) {
+//		var optMovie = repoMovie.findById(movie.getId());
+//		//TODO : anywhere else (normalement pas d'algo dans un controller)
+//			optMovie.ifPresent(m -> {
+//				m.setTitle(movie.getTitle());
+//				m.setYear(movie.getYear());
+//				m.setDuration(movie.getDuration());
+//				m.setDirector(movie.getDirector());
+//				repoMovie.flush();	
+//			});
+//		return optMovie;
+//	}
+//	
+//	@DeleteMapping("/{id}")
+//	@ResponseBody
+//	public Optional<Movie> deleteMovie(@PathVariable("id") int id){
+//		Optional<Movie> movie = repoMovie.findById(id);
+//		if (movie.isPresent()) {
+//			repoMovie.deleteById(id);
+//			repoMovie.flush();
+//		}
+//		return movie;
+//	}
 	
 }

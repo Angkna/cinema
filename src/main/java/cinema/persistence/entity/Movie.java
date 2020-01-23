@@ -90,7 +90,7 @@ public class Movie {
 	}
 	
 	//lien de table avec Person : cle etrangere (FK)
-	@ManyToOne(fetch = FetchType.EAGER) //or LAZY pour des relations N ou circulaire.
+	@ManyToOne(fetch = FetchType.EAGER) //Eager par defaut 1-n (doit use LAZY pour des relations circulaires).
 	@JoinColumn(name = "id_director", nullable = true)
 	public Person getDirector() {
 		return director;
@@ -101,10 +101,10 @@ public class Movie {
 	}
 	
 	//Normalement on ne les fait pas pour n-n mais comme c'est pour la persistance, on se le permet.
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY) //Lazy par defaut (relation n-n)
     @JoinTable(name="act",
-    joinColumns = @JoinColumn(name="movies", referencedColumnName="id_movie"),
-    inverseJoinColumns = @JoinColumn(name="actor", referencedColumnName="id"))
+    joinColumns = @JoinColumn(name="id_movies", referencedColumnName="id_movie"),
+    inverseJoinColumns = @JoinColumn(name="id_actor", referencedColumnName="id_person"))
 	public List<Person> getActors() {
 		return actors;
 	}

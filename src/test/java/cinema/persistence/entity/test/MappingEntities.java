@@ -3,11 +3,9 @@ package cinema.persistence.entity.test;
  *  !!!!!   NOT A UNIT TEST CASE   !!!!!
  */
 
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;

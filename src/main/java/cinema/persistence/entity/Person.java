@@ -35,7 +35,7 @@ public class Person {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+	@Column(name = "id_person")
 	public Integer getId() {
 		return id;
 	}
