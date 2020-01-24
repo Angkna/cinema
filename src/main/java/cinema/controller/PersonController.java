@@ -14,32 +14,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cinema.persistence.entity.Person;
 import cinema.persistence.repository.PersonRepository;
+import cinema.service.IPersonService;
 
 @RestController
 @RequestMapping("/api/person")
 public class PersonController {
 	
 	@Autowired
-	
+	IPersonService personService;
 	PersonRepository repoPerson;
 	
 	@GetMapping
 	@ResponseBody
-	public List<Person> persons(){
-		return repoPerson.findAll();
+	public List<Person> allPersons(){
+		return personService.getAllPersons();
 	}
 	
 	@GetMapping("/{id}")
 	@ResponseBody
-	public Optional<Person> person(@PathVariable("id") int id){
-		return repoPerson.findById(id);
+	public Optional<Person> personById(@PathVariable("id") int id){
+		return personService.getPersonById(id);
 	}
 	
 	@PostMapping
 	@ResponseBody
 	public Person addPerson (@RequestBody Person p) {
-		var saved = repoPerson.save(p);
-		repoPerson.flush();
-		return saved;
+		return personService.addPerson(p);
 	}
 }
