@@ -20,6 +20,7 @@ import cinema.persistence.repository.PersonRepository;
 public class PersonController {
 	
 	@Autowired
+	
 	PersonRepository repoPerson;
 	
 	@GetMapping
